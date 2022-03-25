@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get( '/', App\Http\Livewire\Frontend\Home::class )->name( 'home' );
+Route::get( '/test',  function (){
+    return 'Test Pass';
+});
 Route::get( '/login', App\Http\Livewire\Auth\AuthManager::class )->name( 'login' );
 Route::get( '/logout', [App\Http\Controllers\Auth\LogoutController::class,'logout'])->name( 'logout' );
 
