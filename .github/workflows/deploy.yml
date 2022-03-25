@@ -20,7 +20,8 @@ jobs:
           host: ${{ secrets.MIKRO_STG_HOST }}
           username: ${{ secrets.MIKRO_STG_USER }}
           port: ${{ secrets.MIKRO_STG_PORT }}
-          KEY: ${{ secrets.MIKRO_STG_SSH_KEY }}
+          password: ${{ secrets.MIKRO_STG_HOST_PASS }}
+          #KEY: ${{ secrets.MIKRO_STG_SSH_KEY }}
           source: "."
           target: "/var/www/blackcoder"
 
@@ -30,7 +31,8 @@ jobs:
           host: ${{ secrets.MIKRO_STG_HOST }}
           username: ${{ secrets.MIKRO_STG_USER }}
           port: ${{ secrets.MIKRO_STG_PORT }}
-          KEY: ${{ secrets.MIKRO_STG_SSH_KEY }}
+          password: ${{ secrets.MIKRO_STG_HOST_PASS }}
+          #KEY: ${{ secrets.MIKRO_STG_SSH_KEY }}
           script: |
             # cd /var/www/blackcoder
             cd /var/www/blackcoder
