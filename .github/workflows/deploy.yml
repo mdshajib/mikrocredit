@@ -1,4 +1,4 @@
-name: payroll deployement
+name: mikro credit deployement
 
 on:
   push:

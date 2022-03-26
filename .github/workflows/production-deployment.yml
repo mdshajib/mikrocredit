@@ -1,4 +1,4 @@
-name: payroll production deployement
+name: mikro credit deployement
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
           port: ${{ secrets.PROD_PORT }}
           key: ${{ secrets.PROD_SSH_KEY }}
           source: "."
-          target: "/home/azureuser/simplix"
+          target: "/var/www/blackcoder"
       - run: |
           rm -rf .git
           ls -la
@@ -35,26 +35,26 @@ jobs:
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
             echo "removing .git file"
-            rm -rf /home/azureuser/simplix/.git
+            rm -rf /home/azureuser/mikrocredit/.git
             echo "transferring files to application server"
-            scp -i ${{secrets.PROD_APP_KEY_PATH}} -r /home/azureuser/simplix ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}}:/home/azureuser
+            scp -i ${{secrets.PROD_APP_KEY_PATH}} -r /home/azureuser/mikrocredit ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}}:/home/azureuser
             echo "cleaning direcory"
-            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/simplix && sudo rm -rf public app bootstrap config database resources routes tests composer.json package.json phpunit.xml server.php webpack.mix.js dump.rdb artisan .github"
+            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/mikrocredit && sudo rm -rf public app bootstrap config database resources routes tests composer.json package.json phpunit.xml server.php webpack.mix.js dump.rdb artisan .github"
             echo "transfering files to hosting directory..."
-            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "sudo mv -f -v /home/azureuser/simplix/* /var/www/simplix"
+            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "sudo mv -f -v /home/azureuser/mikrocredit/* /var/www/mikrocredit"
             #echo "login to app server"
             #echo "creating env file...."
-            #ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} 'cd /var/www/simplix && sudo /usr/bin/php -r "file_exists('.env') || copy('.env.example', '.env');"'
+            #ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} 'cd /var/www/mikrocredit && sudo /usr/bin/php -r "file_exists('.env') || copy('.env.example', '.env');"'
             ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "echo ls /var/www"
             echo "executing composer install...."
-            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/simplix && sudo /usr/local/bin/composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs"
+            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/mikrocredit && sudo /usr/local/bin/composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs"
             echo "Generating key..."
-            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/simplix && sudo /usr/bin/php artisan key:generate"
-            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/simplix && sudo /usr/bin/php artisan cache:clear"
+            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/mikrocredit && sudo /usr/bin/php artisan key:generate"
+            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/mikrocredit && sudo /usr/bin/php artisan cache:clear"
             echo "Granting directory permissions..."
-            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/simplix && sudo chmod -R 777 storage bootstrap/cache"
+            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/mikrocredit && sudo chmod -R 777 storage bootstrap/cache"
             echo "running migration"
-            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/simplix && sudo /usr/bin/php artisan migrate"
+            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/mikrocredit && sudo /usr/bin/php artisan migrate"
             echo "running Storage link"
-            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/simplix && sudo /usr/bin/php artisan storage:link"
+            ssh -i ${{secrets.PROD_APP_KEY_PATH}} ${{secrets.PROD_USER}}@${{secrets.PROD_APP_SERVER_HOST}} "cd /var/www/mikrocredit && sudo /usr/bin/php artisan storage:link"
             echo "done...."
