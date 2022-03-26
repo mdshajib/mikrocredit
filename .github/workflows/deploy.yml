@@ -48,6 +48,8 @@ jobs:
             php artisan migrate
             echo "run seed"
             php artisan db:seed
+            echo "cache clear"
+            php artisan cache:clear
             echo "finally unit testing..."
             vendor/bin/phpunit
             echo "executing yarn command"
