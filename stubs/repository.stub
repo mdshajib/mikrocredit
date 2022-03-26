@@ -1,0 +1,23 @@
+<?php
+
+namespace DummyNamespace;
+
+use Exception;
+
+class DummyClass extends AbstractRepository
+{
+     /**
+     * Function details
+     */
+     public function customFunction()
+     {
+        try
+        {
+            // ToDo
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
+     }
+}
